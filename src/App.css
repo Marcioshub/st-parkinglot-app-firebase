@@ -1,22 +1,185 @@
-.App {
-  text-align: center;
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .login-card {
+    width: 95%;
+    margin-top: 35%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .register-card {
+    width: 95%;
+    margin-top: 35%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .add-employee-card {
+    width: 95%;
+    margin: 5%;
+  }
+
+  .employee-card {
+    width: 95%;
+    margin: 2%;
+    text-align: left;
+  }
+
+  .search-input {
+    width: 95% !important;
+    margin-top: 3%;
+  }
 }
 
-.App-logo {
-  height: 40vmin;
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .login-card {
+    width: 85%;
+    margin-top: 25%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .register-card {
+    width: 85%;
+    margin-top: 25%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .add-employee-card {
+    width: 85%;
+    margin: 5%;
+  }
+
+  .employee-card {
+    width: 85%;
+    margin: 2%;
+    text-align: left;
+  }
+
+  .search-input {
+    width: 85% !important;
+    margin-top: 3%;
+  }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .login-card {
+    width: 75%;
+    margin-top: 20%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .register-card {
+    width: 75%;
+    margin-top: 20%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .add-employee-card {
+    width: 75%;
+    margin: 5%;
+  }
+
+  .employee-card {
+    width: 75%;
+    margin: 2%;
+    text-align: left;
+  }
+
+  .search-input {
+    width: 75% !important;
+    margin-top: 3%;
+  }
 }
 
-.App-link {
-  color: #09d3ac;
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .login-card {
+    width: 65%;
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .register-card {
+    width: 65%;
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .add-employee-card {
+    width: 65%;
+    margin: 5%;
+  }
+
+  .employee-card {
+    width: 65%;
+    margin: 2%;
+    text-align: left;
+  }
+
+  .search-input {
+    width: 65% !important;
+    margin-top: 3%;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .login-card {
+    width: 50%;
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .register-card {
+    width: 50%;
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .add-employee-card {
+    width: 50%;
+    margin: 2%;
+    text-align: center;
+  }
+
+  .employee-card {
+    width: 50%;
+    margin: 2%;
+    text-align: left;
+  }
+
+  .search-input {
+    width: 50% !important;
+    margin-top: 3%;
+  }
 }
