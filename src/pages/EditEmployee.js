@@ -16,6 +16,8 @@ import {
   Alert
 } from "reactstrap";
 
+import { useHistory } from "react-router";
+
 export default function EditEmployee(props) {
   const [user, setUser] = useState("");
 
@@ -36,13 +38,23 @@ export default function EditEmployee(props) {
 
   var timeoutRef = useRef(null);
 
+  let history = useHistory();
+
   useEffect(() => {
+    if (
+      props.location.aboutProps === undefined ||
+      props.location.user === undefined
+    ) {
+      //props.history.push("/");
+      history.push("/");
+    }
+
     if (
       props.location.aboutProps !== undefined ||
       props.location.user !== undefined
     ) {
       // Current user
-      setUser(props.location.user.email);
+      setUser(props.location.user.email); // props.location.user.email
 
       // Employee info
       setName(props.location.aboutProps.name);
@@ -60,22 +72,6 @@ export default function EditEmployee(props) {
 
     // eslint-disable-next-line
   }, []);
-
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      // if User is signed in then redirect to homepage
-
-      if (
-        props.location.aboutProps === undefined ||
-        props.location.user === undefined
-      ) {
-        props.history.push("/");
-      }
-    } else {
-      // No user is signed in.
-      props.history.push("/login");
-    }
-  });
 
   function showNotification() {
     timeoutRef = setTimeout(() => {

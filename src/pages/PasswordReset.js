@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -12,9 +12,23 @@ import {
 import firebase from "firebase/app";
 import "firebase/auth";
 
+import { useHistory } from "react-router";
+
 export default function PasswordReset(props) {
   const [email, setEmail] = useState("");
 
+  let history = useHistory();
+
+  useEffect(() => {
+    if (firebase.auth().currentUser !== null) {
+      //props.history.push("/");
+      history.push("/");
+    }
+
+    // eslint-disable-next-line
+  }, []);
+
+  /*
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // if User is signed in then redirect to homepage
@@ -23,6 +37,7 @@ export default function PasswordReset(props) {
       // No user is signed in.
     }
   });
+  */
 
   function resetPasswd() {
     firebase
@@ -39,8 +54,10 @@ export default function PasswordReset(props) {
   }
 
   return (
-    <Card className="mx-auto login-card">
-      <CardHeader>Email Reset</CardHeader>
+    <Card className="mx-auto Card">
+      <CardHeader>
+        <h1>Email Reset</h1>
+      </CardHeader>
       <CardBody>
         <FormGroup style={{ marginTop: "5%" }}>
           <Input

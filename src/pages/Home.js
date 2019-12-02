@@ -13,6 +13,7 @@ import Loader from "react-loader-spinner";
 
 // router
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 
 // firebase
 import firebase from "firebase/app";
@@ -27,33 +28,33 @@ export default function Home(props) {
     data: null
   });
 
+  let history = useHistory();
+
   //var timeoutRef = useRef(null);
 
   useEffect(() => {
-    if (currentUser !== null) {
-      syncToDatabase();
-    }
     console.log("UseEffect called...");
 
+    const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // if User is signed in then redirect to homepage
+        setCurrentUser(user.email);
+        syncToDatabase(user.email);
+      } else {
+        // No user is signed in.
+        history.push("/login");
+      }
+    });
+
+    return () => unsubscribe();
+
     // eslint-disable-next-line
-  }, [currentUser]);
+  }, []);
 
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      setCurrentUser(firebase.auth().currentUser.email);
-      //syncToDatabase();
-    } else {
-      // No user is signed in.
-      props.history.push("/login");
-    }
-  });
-
-  function syncToDatabase() {
+  function syncToDatabase(email) {
     firebase
       .firestore()
-      .collection(
-        currentUser === null ? firebase.auth().currentUser.email : currentUser
-      )
+      .collection(email)
       .get()
       .then(function(querySnapshot) {
         var emp = [];
@@ -73,17 +74,15 @@ export default function Home(props) {
       });
   }
 
-  function deleteEmployee(email) {
+  function deleteEmployee(employee) {
     firebase
       .firestore()
-      .collection(
-        currentUser === null ? firebase.auth().currentUser.email : currentUser
-      )
-      .doc(email)
+      .collection(firebase.auth().currentUser.email)
+      .doc(employee)
       .delete()
       .then(function() {
         console.log("Document successfully deleted!");
-        syncToDatabase();
+        syncToDatabase(currentUser);
       })
       .catch(function(error) {
         console.error("Error removing document: ", error);
@@ -170,7 +169,7 @@ export default function Home(props) {
         employees.data === null ||
         employees.data < 1 ? (
         <div style={{ textAlign: "center", marginTop: "5%" }}>
-          <h1>List empty, please add employees</h1>
+          <h3>List empty, please add employees</h3>
         </div>
       ) : keyword === "" ? (
         employees.data.map(employee => {
@@ -181,7 +180,8 @@ export default function Home(props) {
           .filter(
             employee =>
               employee.name.toLowerCase().includes(keyword.toLowerCase()) ||
-              employee.license.toLowerCase().includes(keyword.toLowerCase())
+              employee.license.toLowerCase().includes(keyword.toLowerCase()) ||
+              employee.car.toLowerCase().includes(keyword.toLowerCase())
           )
           .map(e => {
             return EmployeeCard(e);

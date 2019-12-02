@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 
 //firebase
 import firebase from "firebase/app";
@@ -18,11 +19,13 @@ import "firebase/auth";
 export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  let history = useHistory();
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // if User is signed in then redirect to homepage
-      props.history.push("/");
+      //props.history.push("/");
+      history.push("/");
     } else {
       // No user is signed in.
     }
@@ -37,7 +40,7 @@ export default function Login(props) {
         .signInWithEmailAndPassword(email, password)
         .then(() => {
           //props.history.push("/");
-          props.history.push({
+          history.push({
             pathname: "/",
             user: email
           });
@@ -53,12 +56,12 @@ export default function Login(props) {
   }
 
   return (
-    <Card className="mx-auto login-card">
+    <Card className="mx-auto Card">
       <CardHeader>
         <h1>Account Login</h1>
       </CardHeader>
       <CardBody>
-        <FormGroup style={{ marginTop: "5%" }}>
+        <FormGroup style={{ marginTop: "2%" }}>
           <Input
             onChange={e => setEmail(e.target.value)}
             type="email"
@@ -79,13 +82,13 @@ export default function Login(props) {
           onClick={() => loginBtn()}
           color="danger"
           size="lg"
-          style={{ marginTop: "5%" }}
+          style={{ marginTop: "2%" }}
         >
           Login
         </Button>
 
         <Link tag={Link} to="/passwordreset">
-          <h4 style={{ marginTop: "5%" }}>Forgot your password?</h4>
+          <h6 style={{ marginTop: "2%" }}>Forgot your password?</h6>
         </Link>
       </CardBody>
     </Card>

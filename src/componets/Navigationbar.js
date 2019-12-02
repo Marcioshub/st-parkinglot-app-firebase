@@ -22,7 +22,7 @@ export default function Navigationbar() {
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // if User is signed in then redirect to homepage
-      setPerson(firebase.auth().currentUser.email);
+      setPerson(user.email);
     } else {
       // No user is signed in.
     }
@@ -38,13 +38,22 @@ export default function Navigationbar() {
       })
       .catch(function(error) {
         // An error happened.
+      })
+      .finally(() => {
+        if (isOpen) {
+          toggle();
+        }
       });
   }
 
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand tag={Link} to={person !== null ? "/" : "/login"}>
+        <NavbarBrand
+          tag={Link}
+          to={person !== null ? "/" : "/login"}
+          onClick={isOpen === true ? () => toggle() : null}
+        >
           ST Parking Lot
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
@@ -52,12 +61,20 @@ export default function Navigationbar() {
           {person === null ? (
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink tag={Link} to="/login">
+                <NavLink
+                  tag={Link}
+                  to="/login"
+                  onClick={isOpen === true ? () => toggle() : null}
+                >
                   Login
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} to="/register">
+                <NavLink
+                  tag={Link}
+                  to="/register"
+                  onClick={isOpen === true ? () => toggle() : null}
+                >
                   Register
                 </NavLink>
               </NavItem>
@@ -65,7 +82,11 @@ export default function Navigationbar() {
           ) : (
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink tag={Link} to="/addemployee">
+                <NavLink
+                  tag={Link}
+                  to="/addemployee"
+                  onClick={isOpen === true ? () => toggle() : null}
+                >
                   Add Employee
                 </NavLink>
               </NavItem>

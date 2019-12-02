@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useRef } from "react";
+import React, { useState, Fragment, useRef, useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -14,7 +14,9 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
-export default function AddEmployee(props) {
+import { useHistory } from "react-router";
+
+export default function AddEmployee() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -32,11 +34,20 @@ export default function AddEmployee(props) {
 
   const timeoutRef = useRef(null);
 
-  /*
+  let history = useHistory();
+
   useEffect(() => {
-    console.log("useEffect called...");
-    //showNotification()
-  }, []);*/
+    const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+      } else {
+        // No user is signed in.
+        history.push("/login");
+      }
+    });
+
+    return () => unsubscribe();
+    // eslint-disable-next-line
+  }, []);
 
   function showNotification() {
     timeoutRef.current = setTimeout(() => {
@@ -52,20 +63,12 @@ export default function AddEmployee(props) {
       <Alert
         className="mx-auto"
         color={note.color}
-        style={{ width: "50%", marginTop: "5%" }}
+        style={{ width: "50%", marginTop: "2%" }}
       >
         {note.text}
       </Alert>
     );
   }
-
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-    } else {
-      // No user is signed in.
-      props.history.push("/login");
-    }
-  });
 
   function addEmployeeBtn() {
     if (

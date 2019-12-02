@@ -12,15 +12,20 @@ import {
 import firebase from "firebase/app";
 import "firebase/auth";
 
+import { useHistory } from "react-router";
+
 export default function Register(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  let history = useHistory();
+
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // if User is signed in then redirect to homepage
-      props.history.push("/");
+      //props.history.push("/");
+      history.push("/");
     } else {
       // No user is signed in.
     }
@@ -47,12 +52,12 @@ export default function Register(props) {
   }
 
   return (
-    <Card className="mx-auto register-card">
+    <Card className="mx-auto Card">
       <CardHeader>
         <h1>Register Account</h1>
       </CardHeader>
       <CardBody>
-        <FormGroup style={{ marginTop: "5%" }}>
+        <FormGroup style={{ marginTop: "2%" }}>
           <Input
             onChange={e => setEmail(e.target.value)}
             type="email"
@@ -78,7 +83,7 @@ export default function Register(props) {
           onClick={() => registerBtn()}
           color="danger"
           size="lg"
-          style={{ marginTop: "5%" }}
+          style={{ marginTop: "2%" }}
         >
           Register
         </Button>

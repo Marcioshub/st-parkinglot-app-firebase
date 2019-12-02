@@ -1,17 +1,8 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-  .login-card {
+  .Card {
     width: 95%;
-    margin-top: 35%;
-    margin-left: 5%;
-    margin-right: 5%;
-    text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  }
-
-  .register-card {
-    width: 95%;
-    margin-top: 35%;
+    margin-top: 15%;
     margin-left: 5%;
     margin-right: 5%;
     text-align: center;
@@ -37,17 +28,8 @@
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-  .login-card {
-    width: 85%;
-    margin-top: 25%;
-    margin-left: 5%;
-    margin-right: 5%;
-    text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  }
-
-  .register-card {
-    width: 85%;
+  .Card {
+    width: 70%;
     margin-top: 25%;
     margin-left: 5%;
     margin-right: 5%;
@@ -74,17 +56,8 @@
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-  .login-card {
-    width: 75%;
-    margin-top: 20%;
-    margin-left: 5%;
-    margin-right: 5%;
-    text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  }
-
-  .register-card {
-    width: 75%;
+  .Card {
+    width: 60%;
     margin-top: 20%;
     margin-left: 5%;
     margin-right: 5%;
@@ -111,17 +84,8 @@
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-  .login-card {
-    width: 65%;
-    margin-top: 10%;
-    margin-left: 5%;
-    margin-right: 5%;
-    text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  }
-
-  .register-card {
-    width: 65%;
+  .Card {
+    width: 50%;
     margin-top: 10%;
     margin-left: 5%;
     margin-right: 5%;
@@ -148,18 +112,9 @@
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-  .login-card {
-    width: 50%;
-    margin-top: 10%;
-    margin-left: 5%;
-    margin-right: 5%;
-    text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  }
-
-  .register-card {
-    width: 50%;
-    margin-top: 10%;
+  .Card {
+    width: 40%;
+    margin-top: 5%;
     margin-left: 5%;
     margin-right: 5%;
     text-align: center;
