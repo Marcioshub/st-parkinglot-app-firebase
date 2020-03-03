@@ -1,12 +1,4 @@
 import React, { useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  FormGroup,
-  Input,
-  Button
-} from "reactstrap";
 
 //firebase
 import firebase from "firebase/app";
@@ -14,10 +6,68 @@ import "firebase/auth";
 
 import { useHistory } from "react-router";
 
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
+import TextField from "@material-ui/core/TextField";
+
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+
+import { Link } from "react-router-dom";
+
+const useStyles = makeStyles({
+  card: {
+    minWidth: 275,
+    textAlign: "center"
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
+  },
+  title: {
+    fontSize: 14
+  },
+  pos: {
+    marginBottom: 12
+  },
+  formRoot: {
+    "& > *": {
+      margin: 5,
+      minWidth: "75%"
+    }
+  }
+});
+
 export default function Register(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const snackbarHandleClick = () => {
+    setSnackbarOpen(true);
+  };
+
+  const snackbarHandleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
+
+  const classes = useStyles();
 
   let history = useHistory();
 
@@ -32,8 +82,16 @@ export default function Register(props) {
   });
 
   function registerBtn() {
+    if (email === "" || password === "" || confirmPassword === "") {
+      setSnackbarMessage("Please fill in all fields");
+      snackbarHandleClick();
+      return;
+    }
+
     if (password !== confirmPassword) {
-      console.log("Passwords do not match");
+      //console.log("Passwords do not match");
+      setSnackbarMessage("Passwords do not match");
+      snackbarHandleClick();
     } else {
       firebase
         .auth()
@@ -42,52 +100,90 @@ export default function Register(props) {
           props.history.push("/");
         })
         .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // ...
-          console.log(errorCode, errorMessage);
+          setSnackbarMessage(`${error.code}: ${error.message}`);
+          snackbarHandleClick();
         });
     }
   }
 
   return (
-    <Card className="mx-auto Card">
-      <CardHeader>
-        <h1>Register Account</h1>
-      </CardHeader>
-      <CardBody>
-        <FormGroup style={{ marginTop: "2%" }}>
-          <Input
-            onChange={e => setEmail(e.target.value)}
-            type="email"
-            placeholder="Email"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            onChange={e => setPassword(e.target.value)}
-            type="password"
-            placeholder="Password"
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            onChange={e => setConfirmPassword(e.target.value)}
-            type="password"
-            placeholder="Confirm Password"
-          />
-        </FormGroup>
+    <div>
+      <br />
+      <br />
+      <br />
+      <CssBaseline />
+      <Container maxWidth="sm">
+        <Card className={classes.card} variant="outlined">
+          <CardContent>
+            <Typography variant="h2" component="h2" gutterBottom>
+              Register
+            </Typography>
 
-        <Button
-          onClick={() => registerBtn()}
-          color="danger"
-          size="lg"
-          style={{ marginTop: "2%" }}
-        >
-          Register
-        </Button>
-      </CardBody>
-    </Card>
+            <form className={classes.formRoot} noValidate autoComplete="off">
+              <TextField
+                id="email"
+                label="Email"
+                variant="outlined"
+                onChange={e => setEmail(e.target.value)}
+              />
+              <br />
+              <TextField
+                id="password"
+                label="Password"
+                variant="outlined"
+                type="password"
+                onChange={e => setPassword(e.target.value)}
+              />
+              <TextField
+                id="confirmpassword"
+                label="Confirm Password"
+                variant="outlined"
+                type="password"
+                onChange={e => setConfirmPassword(e.target.value)}
+              />
+              <Typography
+                color="secondary"
+                variant="overline"
+                display="block"
+                gutterBottom
+                component={Link}
+                to="/passwordreset"
+                style={{ textDecoration: "none" }}
+              >
+                Password Reset
+              </Typography>
+            </form>
+          </CardContent>
+          <CardActions style={{ justifyContent: "center" }}>
+            <Button size="large" onClick={() => registerBtn()}>
+              Submit
+            </Button>
+          </CardActions>
+        </Card>
+      </Container>
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={snackbarHandleClose}
+        message={snackbarMessage}
+        action={
+          <React.Fragment>
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={snackbarHandleClose}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
+    </div>
   );
 }

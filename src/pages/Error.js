@@ -1,24 +1,40 @@
 import React from "react";
-import { Card, CardHeader, CardBody } from "reactstrap";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 
-export default function Error() {
+const useStyles = makeStyles({
+  root: {
+    width: "100%",
+    textAlign: "center"
+  },
+  title: {
+    fontSize: "10rem"
+  }
+});
+
+export default function Types() {
+  const classes = useStyles();
+
   return (
-    <Card className="mx-auto login-card">
-      <CardHeader>
-        <h1 style={{ textAlign: "center" }}>404</h1>
-      </CardHeader>
-      <CardBody>
-        <h4
-          style={{
-            marginTop: "5%",
-            marginBottom: "5%",
-            padding: "10%",
-            textAlign: "center"
-          }}
-        >
-          Sorry, this page doesn't exists
-        </h4>
-      </CardBody>
-    </Card>
+    <div className={classes.root}>
+      <br />
+      <br />
+      <Typography
+        variant="h1"
+        component="h2"
+        gutterBottom
+        className={classes.title}
+      >
+        404
+      </Typography>
+      <Typography variant="h2" gutterBottom>
+        Sorry, this url doesn't exist
+      </Typography>
+      <Button variant="outlined" color="primary" component={Link} to="/">
+        Go Back Home
+      </Button>
+    </div>
   );
 }

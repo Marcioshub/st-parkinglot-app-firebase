@@ -1,13 +1,4 @@
 import React, { useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  FormGroup,
-  Input,
-  FormFeedback,
-  Button
-} from "reactstrap";
 
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
@@ -16,10 +7,66 @@ import { useHistory } from "react-router";
 import firebase from "firebase/app";
 import "firebase/auth";
 
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
+import TextField from "@material-ui/core/TextField";
+
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+
+const useStyles = makeStyles({
+  card: {
+    minWidth: 275,
+    textAlign: "center"
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
+  },
+  title: {
+    fontSize: 14
+  },
+  pos: {
+    marginBottom: 12
+  },
+  formRoot: {
+    "& > *": {
+      margin: 5,
+      minWidth: "75%"
+    }
+  }
+});
+
 export default function Login(props) {
+  const classes = useStyles();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let history = useHistory();
+
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const snackbarHandleClick = () => {
+    setSnackbarOpen(true);
+  };
+
+  const snackbarHandleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
@@ -33,64 +80,98 @@ export default function Login(props) {
 
   function loginBtn() {
     if (email === "" || password === "") {
-      console.log("invaild...");
+      setSnackbarMessage("Please fill in all fields");
+      snackbarHandleClick();
     } else {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
           //props.history.push("/");
+          //console.log("valid login");
           history.push({
             pathname: "/",
             user: email
           });
         })
         .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // ...
-          console.log(errorCode, errorMessage);
+          setSnackbarMessage(`${error.code}: ${error.message}`);
+          snackbarHandleClick();
         });
     }
   }
 
   return (
-    <Card className="mx-auto Card">
-      <CardHeader>
-        <h1>Account Login</h1>
-      </CardHeader>
-      <CardBody>
-        <FormGroup style={{ marginTop: "2%" }}>
-          <Input
-            onChange={e => setEmail(e.target.value)}
-            type="email"
-            placeholder="Email"
-          />
-          <FormFeedback tooltip>You will not be able to see this</FormFeedback>
-        </FormGroup>
-        <FormGroup>
-          <Input
-            onChange={e => setPassword(e.target.value)}
-            type="password"
-            placeholder="Password"
-          />
-          <FormFeedback tooltip>You will not be able to see this</FormFeedback>
-        </FormGroup>
+    <div>
+      <br />
+      <br />
+      <br />
+      <CssBaseline />
+      <Container maxWidth="sm">
+        <Card className={classes.card} variant="outlined">
+          <CardContent>
+            <Typography variant="h2" component="h2" gutterBottom>
+              Login
+            </Typography>
+            <br />
+            <form className={classes.formRoot} noValidate autoComplete="off">
+              <TextField
+                id="email"
+                label="Email"
+                variant="outlined"
+                onChange={e => setEmail(e.target.value)}
+              />
+              <br />
+              <TextField
+                id="password"
+                label="Password"
+                variant="outlined"
+                type="password"
+                onChange={e => setPassword(e.target.value)}
+              />
+              <Typography
+                color="secondary"
+                variant="overline"
+                display="block"
+                gutterBottom
+                component={Link}
+                to="/passwordreset"
+                style={{ textDecoration: "none" }}
+              >
+                Password Reset
+              </Typography>
+            </form>
+          </CardContent>
+          <CardActions style={{ justifyContent: "center" }}>
+            <Button size="large" onClick={() => loginBtn()}>
+              Enter
+            </Button>
+          </CardActions>
+        </Card>
+      </Container>
 
-        <Button
-          onClick={() => loginBtn()}
-          color="danger"
-          size="lg"
-          style={{ marginTop: "2%" }}
-        >
-          Login
-        </Button>
-
-        <Link tag={Link} to="/passwordreset">
-          <h6 style={{ marginTop: "2%" }}>Forgot your password?</h6>
-        </Link>
-      </CardBody>
-    </Card>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={snackbarHandleClose}
+        message={snackbarMessage}
+        action={
+          <React.Fragment>
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={snackbarHandleClose}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
+    </div>
   );
 }
