@@ -38,8 +38,8 @@ const useStyles = makeStyles({
   },
   formRoot: {
     "& > *": {
-      margin: 5,
-      minWidth: "75%"
+      margin: 10,
+      minWidth: "80%"
     }
   }
 });
@@ -100,23 +100,29 @@ export default function PasswordReset(props) {
       <Container maxWidth="sm">
         <Card className={classes.card} variant="outlined">
           <CardContent>
-            <Typography variant="h4" component="h2" gutterBottom>
-              Enter email to reset password
+            <Typography variant="h4" component="h2">
+              Forgot Password
             </Typography>
             <br />
+            <Typography variant="body" gutterBottom>
+              Please enter your email and you will be emailed a link to reset
+              your password
+            </Typography>
+            <br />
+            <br />
+
             <form className={classes.formRoot} noValidate autoComplete="off">
               <TextField
                 id="email"
-                label="Email"
+                label="Enter email here"
                 variant="outlined"
                 onChange={e => setEmail(e.target.value)}
               />
-              <br />
             </form>
           </CardContent>
           <CardActions style={{ justifyContent: "center" }}>
             <Button size="large" onClick={resetPasswd}>
-              Reset
+              Reset My Password
             </Button>
           </CardActions>
         </Card>

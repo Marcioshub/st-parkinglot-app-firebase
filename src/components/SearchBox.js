@@ -253,9 +253,10 @@ export default function SearchBox() {
     <Fragment>
       <CssBaseline />
       <MaterialTable
-        title="Parking Lot"
+        title="Employees"
         columns={state.columns}
         data={employees.data}
+        localization={{ body: { editRow: { deleteText: "Delete employee?" } } }}
         editable={{
           onRowAdd: newData =>
             new Promise(resolve => {

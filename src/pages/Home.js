@@ -48,7 +48,7 @@ export default function Home() {
       <br />
       <br />
       <CssBaseline />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <SearchBox />
       </Container>
       <div className={classes.fab}>
